@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Engineering Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0f;
+      --surface: #16161a;
+      --border: #2a2a32;
+      --accent: #c8f135;
+      --accent-dim: #9db828;
+      --text: #e8e8e2;
+      --muted: #888882;
+      --tag-bg: #1e1e25;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: rgba(14,14,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 10rem 2.5rem 6rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.4rem;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-family: 'DM Mono', monospace;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0e0f;
+      font-weight: 500;
+    }
+    .btn-primary:hover { background: #d6ff3a; }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ── SECTION WRAPPER ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── PROJECT CARDS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5px;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 260px;
+      transition: border-color 0.25s;
+    }
+    .project-card:hover { border-color: #3a3a48; }
+    .project-card.reverse { direction: rtl; }
+    .project-card.reverse > * { direction: ltr; }
+
+    .project-img {
+      background: #1c1c22;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      min-height: 220px;
+    }
+    .project-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .project-img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .project-img-placeholder .icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+    .project-img-placeholder span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--border);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .project-info {
+      padding: 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .project-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .project-status.wip { color: #f0a500; }
+    .project-name {
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .project-links { display: flex; gap: 0.75rem; }
+    .proj-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .proj-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .skills-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .skill-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+    .skill-item::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .skills-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.25rem;
+    }
+    .contact-inner h2 { font-size: 2rem; font-weight: 300; letter-spacing: -0.02em; }
+    .contact-inner p { color: var(--muted); max-width: 400px; font-size: 0.95rem; }
+    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--border);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1.25rem; }
+      .hero { padding: 7rem 1.25rem 4rem; }
+      section { padding: 3.5rem 1.25rem; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-card.reverse { direction: ltr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-inner { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">// YOUR_NAME</span>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-label">Engineering Portfolio</p>
+    <h1>Building things<br/>that <em>actually work.</em></h1>
+    <p class="hero-desc">
+      I'm [Your Name] — an engineer who makes video games and autonomous systems.
+      This is a collection of the work I'm most proud of.
+    </p>
+    <div class="hero-links">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="https://github.com/yourusername" class="btn btn-outline" target="_blank">GitHub ↗</a>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT: Game 1 -->
+      <div class="project-card">
+        <div class="project-img">
+          <!-- Replace the placeholder below with an <img> tag once you have a screenshot:
+               <img src="game1-screenshot.png" alt="Game 1 screenshot" /> -->
+          <div class="project-img-placeholder">
+            <span class="icon">🎮</span>
+            <span>Add screenshot here</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <p class="project-status">Complete</p>
+          <h3 class="project-name">Game Title One</h3>
+          <p class="project-desc">
+            A short description of the game — what genre it is, what makes it interesting,
+            and what problem or idea it explores. Keep it to 2–3 sentences.
+          </p>
+          <div class="tags">
+            <span class="tag">Unity</span>
+            <span class="tag">C#</span>
+            <span class="tag">2D Platformer</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link">Play →</a>
+            <a href="#" class="proj-link">Source Code →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT: Game 2 (reversed layout) -->
+      <div class="project-card reverse">
+        <div class="project-img">
+          <div class="project-img-placeholder">
+            <span class="icon">🕹️</span>
+            <span>Add screenshot here</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <p class="project-status">Complete</p>
+          <h3 class="project-name">Game Title Two</h3>
+          <p class="project-desc">
+            Describe this game here. What were you experimenting with technically or
+            creatively? What did you learn making it?
+          </p>
+          <div class="tags">
+            <span class="tag">Godot</span>
+            <span class="tag">GDScript</span>
+            <span class="tag">Procedural Gen</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link">Play →</a>
+            <a href="#" class="proj-link">Source Code →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT: Drone (work in progress) -->
+      <div class="project-card">
+        <div class="project-img">
+          <div class="project-img-placeholder">
+            <span class="icon">🚁</span>
+            <span>Add build photo here</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <p class="project-status wip">In Progress</p>
+          <h3 class="project-name">Autonomous Drone</h3>
+          <p class="project-desc">
+            A custom-built drone focused on [your goal — e.g. autonomous navigation,
+            FPV racing, aerial photography]. Currently testing [current milestone —
+            e.g. stable hover with PID tuning].
+          </p>
+          <div class="tags">
+            <span class="tag">Raspberry Pi</span>
+            <span class="tag">Python</span>
+            <span class="tag">PID Control</span>
+            <span class="tag">ArduPilot</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link">Build Log →</a>
+            <a href="#" class="proj-link">Source Code →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a [student / self-taught / professional] engineer interested in the
+          intersection of software and physical systems. When I'm not writing game
+          logic I'm usually soldering something together or arguing with a flight
+          controller.
+        </p>
+        <p>
+          I'm drawn to projects where software has a real, tangible output — whether
+          that's a player having fun or a drone actually staying in the air.
+        </p>
+        <p>
+          Currently [studying at X / working at X / open to opportunities].
+          Feel free to reach out.
+        </p>
+      </div>
+      <div>
+        <p class="skills-label">Tools &amp; Tech</p>
+        <div class="skills-list">
+          <span class="skill-item">C / C++</span>
+          <span class="skill-item">Python</span>
+          <span class="skill-item">Unity / C#</span>
+          <span class="skill-item">Godot</span>
+          <span class="skill-item">Git</span>
+          <span class="skill-item">Linux</span>
+          <span class="skill-item">Raspberry Pi</span>
+          <span class="skill-item">CAD (Fusion)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner">
+      <h2>Let's connect.</h2>
+      <p>
+        Open to collaborations, feedback on my projects, or just talking about
+        engineering stuff.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:you@email.com" class="btn btn-primary">Email Me</a>
+        <a href="https://github.com/yourusername" class="btn btn-outline" target="_blank">GitHub ↗</a>
+        <a href="https://linkedin.com/in/yourprofile" class="btn btn-outline" target="_blank">LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Built by [Your Name] · Hosted on GitHub Pages
+  </footer>
+
+</body>
+</html>
