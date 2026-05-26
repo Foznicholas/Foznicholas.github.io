@@ -148,7 +148,6 @@
       gap: 1rem;
     }
 
-    /* Wrapper holds the card + the gallery below it */
     .project-wrap {
       display: flex;
       flex-direction: column;
@@ -157,7 +156,7 @@
     .project-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 8px 8px 0 0;
       overflow: hidden;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -167,6 +166,11 @@
     .project-card:hover { border-color: #3a3a48; }
     .project-card.reverse { direction: rtl; }
     .project-card.reverse > * { direction: ltr; }
+
+    /* card with no gallery gets full rounded corners */
+    .project-card.no-gallery {
+      border-radius: 8px;
+    }
 
     .project-img {
       background: #1c1c22;
@@ -256,48 +260,12 @@
     }
     .proj-link:hover { color: var(--accent); border-color: var(--accent); }
 
-    /* ── GALLERY TOGGLE BUTTON ── */
-    .gallery-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 0.25rem 0.65rem;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-left: auto;
-    }
-    .gallery-btn:hover { color: var(--accent); border-color: var(--accent); }
-    .gallery-btn .arrow {
-      display: inline-block;
-      transition: transform 0.25s;
-      font-style: normal;
-    }
-    .gallery-btn.open .arrow { transform: rotate(180deg); }
-
-    /* ── EXPANDABLE GALLERY ── */
+    /* ── PERMANENT GALLERY ── */
     .project-gallery {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, opacity 0.3s ease;
-      opacity: 0;
       background: var(--surface);
       border: 1px solid var(--border);
       border-top: none;
       border-radius: 0 0 8px 8px;
-      /* pull it flush against the card above */
-      margin-top: -8px;
-      padding-top: 8px;
-    }
-    .project-gallery.open {
-      max-height: 800px;
-      opacity: 1;
     }
     .gallery-inner {
       padding: 1.25rem 1.5rem 1.5rem;
@@ -326,7 +294,6 @@
     }
     .gallery-grid img:hover { border-color: var(--accent); }
 
-    /* Placeholder slots — remove once you add real images */
     .gallery-slot {
       aspect-ratio: 16/9;
       background: #1c1c22;
@@ -444,8 +411,8 @@
       This is a collection of the work I'm most proud of.
     </p>
     <div class="hero-links">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="https://github.com/yourusername" class="btn btn-outline" target="_blank">GitHub ↗</a>
+      <a href="https://github.com/Foznicholas" class="btn btn-outline" target="_blank">GitHub ↗</a>
+      <a href="https://itch.io/search?q=fozfam" class="btn btn-outline" target="_blank">Itch.io ↗</a>
     </div>
   </div>
 
@@ -459,19 +426,15 @@
 
     <div class="projects-grid">
 
-      <!-- ═══ PROJECT: A Ghost Game ═══ -->
+      <!-- ═══ PROJECT: Ghost Game ═══ -->
       <div class="project-wrap">
         <div class="project-card">
           <div class="project-img">
-            <!-- <img src="ghost-game.png" alt="A Ghost Game screenshot" /> -->
-            <div class="project-img-placeholder">
-              <span class="icon">🎮</span>
-              <span>Add screenshot here</span>
-            </div>
+            <img src="ghost-1.jpg" alt="Gameplay screenshot" />
           </div>
           <div class="project-info">
             <p class="project-status">Complete</p>
-            <h3 class="project-name">A Ghost Game</h3>
+            <h3 class="project-name">Ghost Game</h3>
             <p class="project-desc">
               An aesthetic 2D game about capturing ghosts in haunted houses with cozy lighting and cute pixel sprites. Learnt how to use sprite sheets for making unique levels.
             </p>
@@ -481,23 +444,17 @@
               <span class="tag">2D Action-RPG</span>
             </div>
             <div class="project-links">
-              <a href="#" class="proj-link">Play →</a>
-              <a href="#" class="proj-link">Source Code →</a>
-              <button class="gallery-btn" onclick="toggleGallery(this, 'gallery-ghost')">
-                Screenshots <span class="arrow">▾</span>
-              </button>
+              <a href="https://fozfam.itch.io/ghostlygame" class="proj-link" target="_blank">Play →</a>
             </div>
           </div>
         </div>
-        <div class="project-gallery" id="gallery-ghost">
+        <div class="project-gallery">
           <div class="gallery-inner">
             <p class="gallery-label">More Screenshots</p>
             <div class="gallery-grid">
-              <!-- Add your images like this: <img src="ghost-1.png" alt="Ghost game level 1" /> -->
-              <!-- Remove these placeholder slots once you add real images -->
-              <div class="gallery-slot">image-1.png</div>
-              <div class="gallery-slot">image-2.png</div>
-              <div class="gallery-slot">image-3.png</div>
+              <img src="ghost-2.jpg" alt="Gameplay" />
+              <img src="ghost-3.jpg" alt="Unity Editor" />
+              <img src="ghost-4.jpg" alt="Level Layout" />
             </div>
           </div>
         </div>
@@ -507,10 +464,7 @@
       <div class="project-wrap">
         <div class="project-card reverse">
           <div class="project-img">
-            <div class="project-img-placeholder">
-              <span class="icon">🕹️</span>
-              <span>Add screenshot here</span>
-            </div>
+            <img src="Racing-1.jpg" alt="Game Cover" />
           </div>
           <div class="project-info">
             <p class="project-status">Complete</p>
@@ -524,21 +478,17 @@
               <span class="tag">3D Racing Sim</span>
             </div>
             <div class="project-links">
-              <a href="#" class="proj-link">Play →</a>
-              <a href="#" class="proj-link">Source Code →</a>
-              <button class="gallery-btn" onclick="toggleGallery(this, 'gallery-rally')">
-                Screenshots <span class="arrow">▾</span>
-              </button>
+              <a href="https://fozfam.itch.io/racing-game" class="proj-link" target="_blank">Play →</a>
             </div>
           </div>
         </div>
-        <div class="project-gallery" id="gallery-rally">
+        <div class="project-gallery">
           <div class="gallery-inner">
             <p class="gallery-label">More Screenshots</p>
             <div class="gallery-grid">
-              <div class="gallery-slot">image-1.png</div>
-              <div class="gallery-slot">image-2.png</div>
-              <div class="gallery-slot">image-3.png</div>
+              <img src="Racing-2.jpg" alt="Gameplay" />
+              <img src="Racing-3.jpg" alt="Gameplay" />
+              <img src="Racing-4.jpg" alt="Gameplay" />
             </div>
           </div>
         </div>
@@ -548,10 +498,7 @@
       <div class="project-wrap">
         <div class="project-card">
           <div class="project-img">
-            <div class="project-img-placeholder">
-              <span class="icon">🎮</span>
-              <span>Add screenshot here</span>
-            </div>
+            <img src="Block-1.png" alt="Game Cover" />
           </div>
           <div class="project-info">
             <p class="project-status">Complete</p>
@@ -565,21 +512,17 @@
               <span class="tag">2D Platformer</span>
             </div>
             <div class="project-links">
-              <a href="#" class="proj-link">Play →</a>
-              <a href="#" class="proj-link">Source Code →</a>
-              <button class="gallery-btn" onclick="toggleGallery(this, 'gallery-block')">
-                Screenshots <span class="arrow">▾</span>
-              </button>
+              <a href="https://fozfam.itch.io/blockbounce" class="proj-link" target="_blank">Play →</a>
             </div>
           </div>
         </div>
-        <div class="project-gallery" id="gallery-block">
+        <div class="project-gallery">
           <div class="gallery-inner">
             <p class="gallery-label">More Screenshots</p>
             <div class="gallery-grid">
-              <div class="gallery-slot">image-1.png</div>
-              <div class="gallery-slot">image-2.png</div>
-              <div class="gallery-slot">image-3.png</div>
+              <img src="Block-2.jpg" alt="Gameplay" />
+              <img src="Block-3.jpg" alt="Gameplay" />
+              <img src="Block-4.jpg" alt="Gameplay" />
             </div>
           </div>
         </div>
@@ -589,10 +532,7 @@
       <div class="project-wrap">
         <div class="project-card reverse">
           <div class="project-img">
-            <div class="project-img-placeholder">
-              <span class="icon">🕹️</span>
-              <span>Add screenshot here</span>
-            </div>
+            <img src="Fish-1.jpg" alt="GamePlay" />
           </div>
           <div class="project-info">
             <p class="project-status wip">In Progress</p>
@@ -608,19 +548,16 @@
             <div class="project-links">
               <a href="#" class="proj-link">Play →</a>
               <a href="#" class="proj-link">Source Code →</a>
-              <button class="gallery-btn" onclick="toggleGallery(this, 'gallery-fish')">
-                Screenshots <span class="arrow">▾</span>
-              </button>
             </div>
           </div>
         </div>
-        <div class="project-gallery" id="gallery-fish">
+        <div class="project-gallery">
           <div class="gallery-inner">
             <p class="gallery-label">More Screenshots</p>
             <div class="gallery-grid">
-              <div class="gallery-slot">image-1.png</div>
-              <div class="gallery-slot">image-2.png</div>
-              <div class="gallery-slot">image-3.png</div>
+              <img src="Fish-2.jpg" alt="GamePlay" />
+              <img src="Fish-3.jpg" alt="GamePlay" />
+              <img src="Fish-4.jpg" alt="GamePlay" />
             </div>
           </div>
         </div>
@@ -648,14 +585,10 @@
             </div>
             <div class="project-links">
               <a href="#" class="proj-link">Build Log →</a>
-              <a href="#" class="proj-link">Source Code →</a>
-              <button class="gallery-btn" onclick="toggleGallery(this, 'gallery-drone')">
-                Build Photos <span class="arrow">▾</span>
-              </button>
             </div>
           </div>
         </div>
-        <div class="project-gallery" id="gallery-drone">
+        <div class="project-gallery">
           <div class="gallery-inner">
             <p class="gallery-label">Build Photos</p>
             <div class="gallery-grid">
@@ -683,10 +616,10 @@
       <div class="about-text">
         <p>
           I'm a mechatronic engineering student interested in the
-          the use of software and physical systems.
+          use of software and physical systems.
         </p>
         <p>
-          I'm drawn to projects where software has a real, tangible output, whether
+          I'm drawn to projects where software has a real, tangible output — whether
           that's a player having fun or a drone actually staying in the air.
         </p>
         <p>
@@ -728,7 +661,7 @@
       </p>
       <div class="contact-links">
         <a href="mailto:05nicofoster@gmail.com" class="btn btn-primary">05nicofoster@gmail.com</a>
-        <a href="https://github.com/yourusername" class="btn btn-outline" target="_blank">GitHub ↗</a>
+        <a href="https://github.com/Foznicholas" class="btn btn-outline" target="_blank">GitHub ↗</a>
       </div>
     </div>
   </section>
@@ -736,15 +669,6 @@
   <footer>
     Built by Nicholas Foster · Hosted on GitHub Pages
   </footer>
-
-  <script>
-    function toggleGallery(btn, galleryId) {
-      const gallery = document.getElementById(galleryId);
-      const isOpen = gallery.classList.contains('open');
-      gallery.classList.toggle('open', !isOpen);
-      btn.classList.toggle('open', !isOpen);
-    }
-  </script>
 
 </body>
 </html>
