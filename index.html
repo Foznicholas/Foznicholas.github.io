@@ -167,7 +167,6 @@
     .project-card.reverse { direction: rtl; }
     .project-card.reverse > * { direction: ltr; }
 
-    /* card with no gallery gets full rounded corners */
     .project-card.no-gallery {
       border-radius: 8px;
     }
@@ -290,6 +289,7 @@
       border-radius: 4px;
       border: 1px solid var(--border);
       display: block;
+      cursor: zoom-in;
       transition: border-color 0.2s;
     }
     .gallery-grid img:hover { border-color: var(--accent); }
@@ -306,6 +306,59 @@
       font-size: 0.65rem;
       color: var(--border);
       letter-spacing: 0.08em;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-box {
+      position: relative;
+      max-width: 80vw;
+      max-height: 80vh;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    }
+    .lightbox-box img {
+      display: block;
+      max-width: 80vw;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2rem;
+      height: 2rem;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+      z-index: 1000;
+    }
+    .lightbox-close:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     /* ── ABOUT ── */
@@ -545,7 +598,6 @@
               <span class="tag">C#</span>
               <span class="tag">FPS ARPG</span>
             </div>
-            </div>
           </div>
         </div>
         <div class="project-gallery">
@@ -663,6 +715,42 @@
   <footer>
     Built by Nicholas Foster · Hosted on GitHub Pages
   </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-box">
+      <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow='';">✕</button>
+      <img id="lightbox-img" src="" alt="" />
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(src, alt) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-img').alt = alt;
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightbox')) return;
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.querySelectorAll('.gallery-grid img').forEach(function(img) {
+      img.addEventListener('click', function() {
+        openLightbox(this.src, this.alt);
+      });
+    });
+  </script>
 
 </body>
 </html>
