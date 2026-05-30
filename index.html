@@ -591,7 +591,7 @@
             <p class="project-status wip">In Progress</p>
             <h3 class="project-name">Fish In A Barrel</h3>
             <p class="project-desc">
-              My most complex game to date — a 3D story game about hooking and shooting fish. Used text files to create a database of fish for capture chance, weight, etc. Many layers to the game which also takes more time and greater difficulty.
+              My most complex game to date. A 3D story game about hooking and shooting fish. Used text files to create a database of fish for capture chance, weight, etc. Many layers to the game which also takes more time and greater difficulty.
             </p>
             <div class="tags">
               <span class="tag">Unity</span>
@@ -717,34 +717,43 @@
   </footer>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-overlay" id="lightbox">
     <div class="lightbox-box">
-      <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow='';">✕</button>
+      <button class="lightbox-close" id="lightbox-close">✕</button>
       <img id="lightbox-img" src="" alt="" />
     </div>
   </div>
 
   <script>
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+
     function openLightbox(src, alt) {
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-img').alt = alt;
-      document.getElementById('lightbox').classList.add('active');
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lb.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
-    function closeLightbox(e) {
-      if (e && e.target !== document.getElementById('lightbox')) return;
-      document.getElementById('lightbox').classList.remove('active');
+    function closeLightbox() {
+      lb.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        document.getElementById('lightbox').classList.remove('active');
-        document.body.style.overflow = '';
-      }
+    // close when clicking the dark overlay (not the image)
+    lb.addEventListener('click', function(e) {
+      if (e.target === lb) closeLightbox();
     });
 
+    // close with X button
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+
+    // close with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // open when clicking any gallery image
     document.querySelectorAll('.gallery-grid img').forEach(function(img) {
       img.addEventListener('click', function() {
         openLightbox(this.src, this.alt);
