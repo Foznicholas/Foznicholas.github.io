@@ -185,6 +185,7 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      cursor: zoom-in;
     }
     .project-img-placeholder {
       display: flex;
@@ -753,8 +754,8 @@
       if (e.key === 'Escape') closeLightbox();
     });
 
-    // open when clicking any gallery image
-    document.querySelectorAll('.gallery-grid img').forEach(function(img) {
+    // open when clicking any gallery image or main card image
+    document.querySelectorAll('.gallery-grid img, .project-img img').forEach(function(img) {
       img.addEventListener('click', function() {
         openLightbox(this.src, this.alt);
       });
